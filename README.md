@@ -1,8 +1,5 @@
 <h1 align="center">🏗️ Factory Method em TypeScript</h1>
 
-<p align="center">
-  <img src="./A_UML_class_diagram_depicts_a_Factory_Method_desig.png" width="600" alt="Diagrama UML do padrão Factory Method">
-</p>
 
 <p align="center">
   <strong>Exemplo prático do padrão de projeto Factory Method em TypeScript</strong><br>
