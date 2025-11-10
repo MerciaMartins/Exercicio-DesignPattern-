@@ -1,120 +1,99 @@
-// 1. Interface base para Página
-interface Page {
-  getTitle(): string;
+abstract class Pagina {
+    constructor(public nome: string) {}
+    public abstract descricao(): string;
 }
 
-// 2. Páginas concretas para Currículo
-class SkillsPage implements Page {
-  getTitle(): string {
-    return "Página de Habilidades";
-  }
+class PaginaHabilidades extends Pagina {
+    constructor() { super("Página de Habilidades"); }
+    public descricao(): string { return this.nome; }
 }
 
-class EducationPage implements Page {
-  getTitle(): string {
-    return "Página de Educação";
-  }
+class PaginaEducacao extends Pagina {
+    constructor() { super("Página de Educação"); }
+    public descricao(): string { return this.nome; }
 }
 
-class ExperiencePage implements Page {
-  getTitle(): string {
-    return "Página de Experiência";
-  }
+class PaginaExperiencia extends Pagina {
+    constructor() { super("Página de Experiência"); }
+    public descricao(): string { return this.nome; }
 }
 
-// 2. Páginas concretas para Relatório
-class IntroductionPage implements Page {
-  getTitle(): string {
-    return "Página de Introdução";
-  }
+class PaginaIntroducao extends Pagina {
+    constructor() { super("Página de Introdução"); }
+    public descricao(): string { return this.nome; }
 }
 
-class ResultsPage implements Page {
-  getTitle(): string {
-    return "Página de Resultados";
-  }
+class PaginaResultados extends Pagina {
+    constructor() { super("Página de Resultados"); }
+    public descricao(): string { return this.nome; }
 }
 
-class ConclusionPage implements Page {
-  getTitle(): string {
-    return "Página de Conclusão";
-  }
+class PaginaConclusao extends Pagina {
+    constructor() { super("Página de Conclusão"); }
+    public descricao(): string { return this.nome; }
 }
 
-class SummaryPage implements Page {
-  getTitle(): string {
-    return "Página de Resumo";
-  }
+class PaginaResumo extends Pagina {
+    constructor() { super("Página de Resumo"); }
+    public descricao(): string { return this.nome; }
 }
 
-class BibliographyPage implements Page {
-  getTitle(): string {
-    return "Página de Bibliografia";
-  }
+class PaginaBibliografia extends Pagina {
+    constructor() { super("Página de Bibliografia"); }
+    public descricao(): string { return this.nome; }
 }
 
-// 3. Classe abstrata Documento
-abstract class Document {
-  protected pages: Page[] = [];
+abstract class Documentos {
+    protected paginas: Pagina[] = [];
 
-  constructor() {
-    this.createPages();
-  }
+    constructor() {
+        this.paginas = this.criarPaginas();
+    }
 
-  protected abstract createPages(): void;
+    protected abstract criarPaginas(): Pagina[];
 
-  getPages(): Page[] {
-    return this.pages;
-  }
+    public getPaginas(): Pagina[] {
+        return this.paginas;
+    }
+
+    public exibir(): void {
+        console.log(`\n${this.constructor.name} -------`);
+        this.paginas.forEach((pagina) => {
+            console.log(pagina.descricao());
+        });
+    }
 }
 
-// 4. Documentos concretos
-class Curriculum extends Document {
-  protected createPages(): void {
-    this.pages.push(new SkillsPage(), new EducationPage(), new ExperiencePage());
-  }
+class Curriculo extends Documentos {
+    protected criarPaginas(): Pagina[] {
+        return [
+            new PaginaHabilidades(),
+            new PaginaEducacao(),
+            new PaginaExperiencia(),
+        ];
+    }
 }
 
-class Report extends Document {
-  protected createPages(): void {
-    this.pages.push(
-      new IntroductionPage(),
-      new ResultsPage(),
-      new ConclusionPage(),
-      new SummaryPage(),
-      new BibliographyPage()
-    );
-  }
+class Relatorio extends Documentos {
+    protected criarPaginas(): Pagina[] {
+        return [
+            new PaginaIntroducao(),
+            new PaginaResultados(),
+            new PaginaConclusao(),
+            new PaginaResumo(),
+            new PaginaBibliografia(),
+        ];
+    }
 }
 
-// Novo tipo de documento
-class Portfolio extends Document {
-  protected createPages(): void {
-    this.pages.push(
-      new IntroductionPage(),
-      new SkillsPage(),
-      new ExperiencePage(),
-      new SummaryPage()
-    );
-  }
+class Principal {
+    public static main(): void {
+        const curriculo: Documentos = new Curriculo();
+        curriculo.exibir();
+
+        const relatorio: Documentos = new Relatorio();
+        relatorio.exibir();
+    }
 }
 
-// 5. Classe Principal
-class Main {
-  static run() {
-    const documents: Document[] = [
-      new Curriculum(),
-      new Report(),
-      new Portfolio(),
-    ];
-
-    documents.forEach((doc) => {
-      const className = doc.constructor.name;
-      console.log(`${className} -------`);
-      doc.getPages().forEach((page) => console.log(page.getTitle()));
-      console.log();
-    });
-  }
-}
-
-Main.run();
+Principal.main();
